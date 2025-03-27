@@ -4,15 +4,18 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include <string.h>
-
-void execute_command(char *command, char *filename) {
+// Maddox Duke
+// Program03
+// 3/26/2025
+void execute_command(char *command, char *arg) {
     pid_t pid = fork();
     if (pid < 0) {
         perror("fork failed");
         exit(EXIT_FAILURE);
     } else if (pid == 0) {
-        execlp(command, command, filename, NULL);
-        perror("exec failed");
+        char *args[] = {command, arg, NULL};
+        execvp(command, args);
+        perror("execvp failed");
         exit(EXIT_FAILURE);
     } else {
         int status;
