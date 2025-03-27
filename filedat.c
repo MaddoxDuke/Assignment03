@@ -44,8 +44,8 @@ int main(int argc, char *argv[]) {
         }
 
         while (getchar() != '\n');  // Clear input buffer
-                                                                                                                                                                            1,1           Top
-switch (choice) {
+
+        switch (choice) {
             case 1:
                 execute_command("cat", filename);
                 break;
@@ -65,3 +65,4 @@ switch (choice) {
     }
     return 0;
 }
+
