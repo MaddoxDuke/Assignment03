@@ -4,21 +4,26 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include <string.h>
-
-void execute_command(char *command, char *filename) {
+// Maddox Duke
+// Program03
+// 3/26/2025
+void execute_command(char *command, char *arg) {
     pid_t pid = fork();
     if (pid < 0) {
         perror("fork failed");
         exit(EXIT_FAILURE);
     } else if (pid == 0) {
-        execlp(command, command, filename, NULL);
-        perror("exec failed");
+        char *args[] = {command, arg, NULL}; 
+        execvp(command, args);
+
+        perror("execvp failed");
         exit(EXIT_FAILURE);
     } else {
         int status;
         wait(&status);
     }
 }
+
 
 int main(int argc, char *argv[]) {
     if (argc != 2) {
@@ -28,16 +33,16 @@ int main(int argc, char *argv[]) {
 
     char *filename = argv[1];
     int choice;
-
+    
     while (1) {
-        printf("File: %s\n", filename);
+        printf("File to be processed: %s\n", filename);
         printf("Menu:\n");
-        printf("1. List contents of file (cat)\n");
-        printf("2. Print newline, word, and character count (wc)\n");
-        printf("3. Print directory details (ls -l)\n");
-        printf("4. Exit\n");
-        printf("Enter choice: ");
-
+        printf("(1) Dsiplay file contents.\n");
+        printf("(2) Print newline, word, and character count.\n");
+        printf("(3) Print directory details.\n");
+        printf("(4) Exit.\n");
+        printf("=> ");
+        
         if (scanf("%d", &choice) != 1) {
             fprintf(stderr, "Invalid input. Exiting.\n");
             exit(EXIT_FAILURE);
@@ -65,4 +70,3 @@ int main(int argc, char *argv[]) {
     }
     return 0;
 }
-
