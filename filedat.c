@@ -4,18 +4,15 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include <string.h>
-// Maddox Duke
-// Program03
-// 3/26/2025
-void execute_command(char *command, char *arg) {
+
+void execute_command(char *command, char *filename) {
     pid_t pid = fork();
     if (pid < 0) {
         perror("fork failed");
         exit(EXIT_FAILURE);
     } else if (pid == 0) {
-        char *args[] = {command, arg, NULL};
-        execvp(command, args);
-        perror("execvp failed");
+        execlp(command, command, filename, NULL);
+        perror("exec failed");
         exit(EXIT_FAILURE);
     } else {
         int status;
@@ -31,7 +28,7 @@ int main(int argc, char *argv[]) {
 
     char *filename = argv[1];
     int choice;
-    
+
     while (1) {
         printf("File: %s\n", filename);
         printf("Menu:\n");
@@ -40,15 +37,15 @@ int main(int argc, char *argv[]) {
         printf("3. Print directory details (ls -l)\n");
         printf("4. Exit\n");
         printf("Enter choice: ");
-        
+
         if (scanf("%d", &choice) != 1) {
             fprintf(stderr, "Invalid input. Exiting.\n");
             exit(EXIT_FAILURE);
         }
 
         while (getchar() != '\n');  // Clear input buffer
-
-        switch (choice) {
+                                                                                                                                                                            1,1           Top
+switch (choice) {
             case 1:
                 execute_command("cat", filename);
                 break;
